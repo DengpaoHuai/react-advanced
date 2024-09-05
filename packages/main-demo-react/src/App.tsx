@@ -1,19 +1,26 @@
 import "./App.css";
 import { RouterProvider } from "react-router-dom";
 import router from "./router/routes";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import UserContextProvider from "./contexts/UserContextProvider";
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 5000,
+      gcTime: 1000 * 60 * 10,
+    },
+  },
+});
 
 function App(): JSX.Element {
   return (
     <>
-      <button
-        onClick={(e) => {
-          console.log(e);
-        }}
-      >
-        demo
-      </button>
-      <p></p>
-      <RouterProvider router={router} />
+      <UserContextProvider>
+        <QueryClientProvider client={queryClient}>
+          <RouterProvider router={router} />
+        </QueryClientProvider>
+      </UserContextProvider>
     </>
   );
 }
