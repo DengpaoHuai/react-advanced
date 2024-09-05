@@ -1,12 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import { getPlanets } from "../services/planet";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { UserContext } from "../contexts/UserContextProvider";
+import useUserStore from "../store/useUserStore";
 
 const PlanetsList = () => {
   const navigate = useNavigate();
-  const { user } = useContext(UserContext);
+  const { user } = useUserStore();
 
   const [page, setPage] = useState(1);
   const {
