@@ -1,12 +1,12 @@
-import { useContext, useState } from "react";
-import { UserContext } from "../contexts/UserContextProvider";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import useUserStore from "../store/useUserStore";
 
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const { updateUser } = useContext(UserContext);
+  const { setUser } = useUserStore();
 
   const handleLogin = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -16,7 +16,7 @@ const LoginScreen = () => {
       nom: "toto",
     };
     console.log(response);
-    updateUser(response);
+    setUser(response);
     navigate("/");
   };
 

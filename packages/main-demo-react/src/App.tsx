@@ -4,7 +4,7 @@ import router from "./router/routes";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import UserContextProvider from "./contexts/UserContextProvider";
 
-const queryClient = new QueryClient({
+export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       staleTime: 5000,

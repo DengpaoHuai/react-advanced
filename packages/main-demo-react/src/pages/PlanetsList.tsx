@@ -1,6 +1,6 @@
-import { useQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { getPlanets } from "../services/planet";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import useUserStore from "../store/useUserStore";
 
@@ -13,10 +13,20 @@ const PlanetsList = () => {
     data: planets,
     isLoading,
     error,
-  } = useQuery({
+  } = useSuspenseQuery({
     queryKey: ["planets", page],
     queryFn: () => getPlanets(page),
   });
+
+  useEffect(() => {
+    const listen = (e: Event) => {
+      console.log(e);
+    };
+    addEventListener("scroll", listen);
+    return () => {
+      removeEventListener("scroll", listen);
+    };
+  }, []);
 
   return (
     <div>
@@ -28,11 +38,13 @@ const PlanetsList = () => {
       >
         navigate
       </button>
+      <Link to="/scroll">scroll</Link>
+      <Link to="/planets">planets</Link>
       <Link to="/login">login</Link>
       {isLoading && <p>Loading...</p>}
       {error && <p>{error.message}</p>}
       {planets?.results.map((planet, index) => (
-        <div key={index}>
+        <div key={planet.url} data-testId={planet.url}>
           <h1>{planet.name}</h1>
           <p>Rotation Period: {planet.rotation_period}</p>
           <p>Orbital Period: {planet.orbital_period}</p>

@@ -1,4 +1,4 @@
-import useFetch from "../hooks/useFetch";
+import { useLoaderData } from "react-router-dom";
 
 type Planet = {
   name: string;
@@ -12,7 +12,7 @@ type Planet = {
   population: string;
 };
 
-type PlanetResponse = {
+export type PlanetResponse = {
   count: number;
   next: string | null;
   previous: string | null;
@@ -20,17 +20,11 @@ type PlanetResponse = {
 };
 
 const PlanetsList = () => {
-  const {
-    loading,
-    error,
-    data: planets,
-  } = useFetch<PlanetResponse>("https://swapi.dev/api/planets/");
+  const data = useLoaderData() as PlanetResponse;
 
   return (
     <div>
-      {loading && <p>Loading...</p>}
-      {error && <p>{error}</p>}
-      {planets?.results.map((planet, index) => (
+      {data?.results.map((planet, index) => (
         <div key={index}>
           <h1>{planet.name}</h1>
           <p>Rotation Period: {planet.rotation_period}</p>
