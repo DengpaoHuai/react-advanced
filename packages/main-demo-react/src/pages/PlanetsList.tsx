@@ -44,7 +44,7 @@ const PlanetsList = () => {
       {isLoading && <p>Loading...</p>}
       {error && <p>{error.message}</p>}
       {planets?.results.map((planet, index) => (
-        <div key={planet.url} data-testId={planet.url}>
+        <div key={index}>
           <h1>{planet.name}</h1>
           <p>Rotation Period: {planet.rotation_period}</p>
           <p>Orbital Period: {planet.orbital_period}</p>

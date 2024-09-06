@@ -1,18 +1,38 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useUserStore from "../store/useUserStore";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const loginSchema = z.object({
+  email: z.string().email(),
+  password: z
+    .string({
+      message: "Password is required",
+    })
+    .min(6, {
+      message: "Trop court.",
+    })
+    .max(100),
+});
+
+type Inputs = z.infer<typeof loginSchema>;
 
 const LoginScreen = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const { setUser } = useUserStore();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Inputs>({
+    resolver: zodResolver(loginSchema),
+  });
 
-  const handleLogin = (e: React.ChangeEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleLogin: SubmitHandler<Inputs> = (values) => {
     const response = {
       id: 1,
-      email: email,
+      email: values.email,
       nom: "toto",
     };
     console.log(response);
@@ -23,19 +43,15 @@ const LoginScreen = () => {
   return (
     <div>
       <h1>Login</h1>
-      <form onSubmit={handleLogin}>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
+      <form onSubmit={handleSubmit(handleLogin)}>
+        <input type="email" placeholder="Email" {...register("email")} />
         <input
           type="password"
           placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          {...register("password")}
         />
+        {errors.email && <p>{errors.email.message}</p>}
+        {errors.password && <p>{errors.password.message}</p>}
         <button>Login</button>
       </form>
     </div>

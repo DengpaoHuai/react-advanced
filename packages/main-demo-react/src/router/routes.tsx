@@ -3,8 +3,6 @@ import PlanetsList from "../pages/PlanetsList";
 import LoginScreen from "../pages/LoginScreen";
 import { authMiddleware } from "./loaderActions/authMiddleware";
 import PlanetsListBis from "../pages/PlanetsList.custom-hooks";
-import { preloadPlanets } from "./loaderActions/preloadPlanets";
-import { preloadPlanetsQuery } from "./loaderActions/preloadPlanetsQuery";
 import SuperScroll from "../pages/SuperScroll";
 import { Suspense } from "react";
 import Loading from "../components/Loading";

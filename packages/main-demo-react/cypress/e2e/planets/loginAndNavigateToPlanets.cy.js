@@ -1,7 +1,6 @@
 describe("Login and Navigate to Planets", () => {
   it("should fill the login form and navigate to the planets page", () => {
     cy.visit("/");
-    cy.get("a").click();
 
     // Remplir l'email et le mot de passe
     cy.get('input[type="email"]').type("test@example.com");

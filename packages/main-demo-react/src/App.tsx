@@ -16,6 +16,7 @@ export const queryClient = new QueryClient({
 function App(): JSX.Element {
   return (
     <>
+      <p>hello</p>
       <UserContextProvider>
         <QueryClientProvider client={queryClient}>
           <RouterProvider router={router} />
